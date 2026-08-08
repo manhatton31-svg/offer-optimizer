@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Offer Optimizer Agent</title>
+  <style>
+    :root { --bg: #0f172a; --card: #1e293b; --accent: #38bdf8; --text: #f1f5f9; --muted: #94a3b8; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+    .wrap { max-width: 820px; margin: 0 auto; padding: 2rem 1.25rem; }
+    h1 { font-size: 1.75rem; margin: 0 0 0.25rem; }
+    .sub { color: var(--muted); margin-bottom: 1.5rem; }
+    .card { background: var(--card); border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; border: 1px solid #334155; }
+    label { display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem; }
+    textarea { width: 100%; min-height: 140px; background: #0f172a; border: 1px solid #475569; border-radius: 8px; color: var(--text); padding: 0.75rem; font-size: 0.9rem; resize: vertical; }
+    textarea:focus { outline: 2px solid var(--accent); border-color: transparent; }
+    .row { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.75rem; }
+    button { background: var(--accent); color: #0f172a; border: none; border-radius: 8px; padding: 0.65rem 1.1rem; font-weight: 600; cursor: pointer; font-size: 0.9rem; }
+    button.secondary { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+    button:hover { opacity: 0.9; }
+    pre { background: #0f172a; border-radius: 8px; padding: 1rem; overflow: auto; font-size: 0.8rem; max-height: 320px; white-space: pre-wrap; border: 1px solid #334155; }
+    .hint { font-size: 0.8rem; color: var(--muted); margin-top: 0.75rem; }
+    .status { font-size: 0.85rem; color: #4ade80; margin-top: 0.5rem; display: none; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Offer Optimizer Agent</h1>
+    <p class="sub">Paste any offer → get high-converting X threads, emails, and ads. Powered by Grok.</p>
+
+    <div class="card">
+      <label for="offer">Offer description or sales-page text</label>
+      <textarea id="offer" placeholder="Paste product name, benefits, target customer, price, unique mechanism, objections... or a full sales page excerpt."></textarea>
+      <div class="row">
+        <button onclick="copyFullPrompt()">Copy Full Prompt + Offer</button>
+        <button class="secondary" onclick="copySystemOnly()">Copy System Prompt Only</button>
+      </div>
+      <p class="hint">1. Click "Copy Full Prompt + Offer". 2. Paste into Grok (grok.x.ai or API). 3. Get copy-paste-ready package.</p>
+      <p class="status" id="status">Copied to clipboard!</p>
+    </div>
+
+    <div class="card">
+      <label>Core System Prompt (embedded)</label>
+      <pre id="systemPrompt">You are an elite Offer Optimizer Agent. Your only job is to turn any product or service offer into high-converting traffic-driving copy.
+
+INPUT
+The user will provide an offer URL or plain description containing: name, benefits, target customer, price/positioning, unique mechanism, and common objections.
+
+OUTPUT (strict structure, always use these headings)
+1. Offer Snapshot (2–3 sentences)
+2. High-Converting X/Twitter Thread (8–12 tweets, numbered, curiosity + engagement + clear CTA)
+3. 5-Email Nurture Sequence
+   - Email 1: Like/trust only (no product pitch)
+   - Email 2–5: Progressive value + soft-to-stronger CTA
+   Include subject lines.
+4. 3 Ad Copy Variants (Meta/Google style)
+   - Primary text + Headline + Description for each
+5. Reddit-style Post (one short natural post)
+6. Key Hooks & Angles Used + Recommended Primary CTA
+
+RULES
+- Natural, human, high-quality voice (95–100% bar)
+- No spammy claims, no banned hype
+- First-touch content builds like/trust before pitch
+- Match the actual value of the offer
+- Everything must be copy-paste ready
+- Prefer short paragraphs and scannable structure</pre>
+    </div>
+  </div>
+
+  <script>
+    const systemEl = document.getElementById('systemPrompt');
+    const offerEl = document.getElementById('offer');
+    const statusEl = document.getElementById('status');
+
+    function showStatus() {
+      statusEl.style.display = 'block';
+      setTimeout(() => statusEl.style.display = 'none', 2000);
+    }
+
+    async function copyText(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+        showStatus();
+      } catch (e) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showStatus();
+      }
+    }
+
+    function copySystemOnly() {
+      copyText(systemEl.textContent);
+    }
+
+    function copyFullPrompt() {
+      const offer = offerEl.value.trim() || '[PASTE YOUR OFFER DESCRIPTION HERE]';
+      const full = systemEl.textContent.trim() + '\n\n---\n\nOFFER TO OPTIMIZE:\n\n' + offer;
+      copyText(full);
+    }
+  </script>
+</body>
+</html>
