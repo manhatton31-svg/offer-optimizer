@@ -35,6 +35,9 @@
       <div class="row">
         <button onclick="copyFullPrompt()">Copy Full Prompt + Offer</button>
         <button class="secondary" onclick="copySystemOnly()">Copy System Prompt Only</button>
+
+        <button class="secondary" onclick="runFreeTemplates()">Free templates (no Grok)</button>
+
       </div>
       <p class="hint">1. Click "Copy Full Prompt + Offer". 2. Paste into Grok (grok.x.ai or API). 3. Get copy-paste-ready package.</p>
       <p class="status" id="status">Copied to clipboard!</p>
@@ -103,6 +106,52 @@ RULES
       const full = systemEl.textContent.trim() + '\n\n---\n\nOFFER TO OPTIMIZE:\n\n' + offer;
       copyText(full);
     }
-  </script>
+  
+    function runFreeTemplates() {
+      const offer = (document.getElementById('offer').value || '').trim() || 'Your offer';
+      const title = offer.split(/[\n.]/)[0].slice(0, 80);
+      const pack = {
+        version: '1.0',
+        cost: 'free',
+        source: 'offer-optimizer-free-templates',
+        xaiUsed: false,
+        offerSnippet: offer.slice(0, 400),
+        snapshot: { title: title, oneLiner: 'Free template pack for: ' + title, audience: 'operators who need leverage' },
+        xThread: [
+          '1/ Most people overcomplicate ' + title,
+          '2/ Simple stack: clear promise → proof → CTA',
+          '3/ Free structure (no AI): problem, shift, offer, risk reversal',
+          '4/ Reply READY for the checklist',
+          '5/ Ship this week — measure replies not vibes'
+        ],
+        emails: [
+          { n: 1, subject: 'Quick idea for ' + title, body: 'Saw your space. One lever: clarify the 1-sentence offer.\n\n— Free template' },
+          { n: 2, subject: 'The 7-day launch', body: 'Day 1 list. Day 2 asset. Day 3 post. Day 4 DM. Day 5 follow-up.\n\n— Free template' },
+          { n: 3, subject: 'Risk reversal line', body: 'If it does not deliver X, you get Y. Put that near the CTA.\n\n— Free template' }
+        ],
+        ads: [
+          { channel: 'meta', primary: 'Get ' + title + ' without guessing the stack.' },
+          { channel: 'x', primary: 'Free structure for ' + title + ' — problem → promise → proof.' }
+        ],
+        note: 'Deterministic free pack. Paste into Grok later only if you enable paid mode.'
+      };
+      const json = JSON.stringify(pack, null, 2);
+      let pre = document.getElementById('freeOut');
+      if (!pre) {
+        pre = document.createElement('pre');
+        pre.id = 'freeOut';
+        document.querySelector('.wrap').appendChild(pre);
+      }
+      pre.textContent = json;
+      const blob = new Blob([json], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'offer-free-templates.json';
+      a.click();
+      const s = document.getElementById('status');
+      if (s) { s.style.display = 'block'; s.textContent = 'Free templates downloaded (no Grok).'; }
+    }
+
+</script>
 </body>
 </html>
