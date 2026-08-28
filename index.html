@@ -16,12 +16,23 @@
     textarea { width: 100%; min-height: 140px; background: #0f172a; border: 1px solid #475569; border-radius: 8px; color: var(--text); padding: 0.75rem; font-size: 0.9rem; resize: vertical; }
     textarea:focus { outline: 2px solid var(--accent); border-color: transparent; }
     .row { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.75rem; }
-    button { background: var(--accent); color: #0f172a; border: none; border-radius: 8px; padding: 0.65rem 1.1rem; font-weight: 600; cursor: pointer; font-size: 0.9rem; }
-    button.secondary { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
-    button:hover { opacity: 0.9; }
+    button, a.btn { background: var(--accent); color: #0f172a; border: none; border-radius: 8px; padding: 0.65rem 1.1rem; font-weight: 600; cursor: pointer; font-size: 0.9rem; }
+    button.secondary, a.btn.secondary { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+    button:hover, a.btn:hover { opacity: 0.9; }
+    a.btn { display: inline-block; text-decoration: none; text-align: center; }
     pre { background: #0f172a; border-radius: 8px; padding: 1rem; overflow: auto; font-size: 0.8rem; max-height: 320px; white-space: pre-wrap; border: 1px solid #334155; }
     .hint { font-size: 0.8rem; color: var(--muted); margin-top: 0.75rem; }
     .status { font-size: 0.85rem; color: #4ade80; margin-top: 0.5rem; display: none; }
+    h2 { font-size: 1.15rem; margin: 0 0 0.35rem; }
+    .badge { display: inline-block; font-size: 0.75rem; color: var(--muted); border: 1px solid #475569; border-radius: 999px; padding: 0.15rem 0.55rem; margin-bottom: 0.65rem; }
+    .pack-list { margin: 0.65rem 0 0; padding-left: 1.15rem; }
+    .pack-list li { margin: 0.28rem 0; }
+    .quiet { font-size: 0.8rem; color: var(--muted); margin: 0.85rem 0 0; }
+    .quiet a { color: var(--accent); }
+    @media (max-width: 520px) {
+      h1 { font-size: 1.45rem; }
+      button, a.btn { width: 100%; }
+    }
   </style>
 </head>
 <body>
@@ -30,6 +41,7 @@
     <p class="sub">Paste any offer → get high-converting X threads, emails, and ads. Powered by Grok.</p>
 
     <div class="card">
+      <p class="badge">Free · use without paying</p>
       <label for="offer">Offer description or sales-page text</label>
       <textarea id="offer" placeholder="Paste product name, benefits, target customer, price, unique mechanism, objections... or a full sales page excerpt."></textarea>
       <div class="row">
@@ -41,6 +53,25 @@
       </div>
       <p class="hint">1. Click "Copy Full Prompt + Offer". 2. Paste into Grok (grok.x.ai or API). 3. Get copy-paste-ready package.</p>
       <p class="status" id="status">Copied to clipboard!</p>
+    </div>
+
+    <div class="card">
+      <p class="badge">$29 one-time · done-for-you</p>
+      <h2>Offer Optimizer Pack</h2>
+      <p class="sub" style="margin-bottom: 0;">Want it built for you instead of running Grok yourself? Paste your offer. Get one Grok-built pack.</p>
+      <ul class="pack-list">
+        <li>Offer snapshot</li>
+        <li>X thread</li>
+        <li>5 emails (first one is trust only)</li>
+        <li>3 ads</li>
+        <li>Reddit-style post</li>
+        <li>Hooks + primary CTA</li>
+      </ul>
+      <p class="hint">After you pay, send your offer text (name, who it is for, price, promise). Also collected at checkout. Grok only.</p>
+      <div class="row">
+        <a class="btn" href="https://whop.com/checkout/plan_4v6tc0oMhp5Lm">Get the $29 pack</a>
+      </div>
+      <p class="quiet"><a href="https://whop.com/offer-optimizer/offer-pack-29">Product page</a></p>
     </div>
 
     <div class="card">
